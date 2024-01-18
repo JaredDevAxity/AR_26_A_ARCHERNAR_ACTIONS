@@ -3,62 +3,55 @@ name: Java SpringBoot CI
 on:
   push:
     branches: [feature/* , develop ]
-  workflow_dispatch:
+  workflow_call:
     inputs:
       maven_opts:
         description: 'Options for Maven. Example: "-Xmx512m"'
-        required: true
-        default: '-Xmx512m'
-
+        type: string
+        
       sonar_project_key:
         description: 'SonarQube project key'
         required: true
+        type: string
 
       sonar_project_name:
         description: 'SonarQube project name'
         required: true
+        type: string
 
       sonar_host_url:
         description: 'SonarQube host URL'
         required: true
+        type: string
 
       sonar_login_token:
         description: 'SonarQube login token'
         required: true
+        type: string
 
       sonar_sources:
         description: 'SonarQube sources'
         required: true
+        type: string
 
       sonar_exclusions:
         description: 'SonarQube exclusions'
         required: true
+        type: string
 
       npm_install:
         description: 'Run npm install'
         required: true
-        default: 'true'
+        type: string
 
       npm_test:
         description: 'Run npm test'
         required: true
-        default: 'false'
+        type: string
 
 jobs:
   build:
     runs-on: self-hosted
-    env:
-      MAVEN_OPTS: ${{ github.event.inputs.maven_opts }}
-      SONAR_PROJECT_KEY: ${{ github.event.inputs.sonar_project_key }}
-      SONAR_PROJECT_NAME: ${{ github.event.inputs.sonar_project_name }}
-      SONAR_HOST_URL: ${{ github.event.inputs.sonar_host_url }}
-      SONAR_LOGIN_TOKEN: ${{ github.event.inputs.sonar_login_token }}
-      SONAR_SOURCES: ${{ github.event.inputs.sonar_sources }}
-      SONAR_EXCLUSIONS: ${{ github.event.inputs.sonar_exclusions }}
-      NPM_INSTALL: ${{ github.event.inputs.npm_install }}
-      NPM_TEST: ${{ github.event.inputs.npm_test }}
-      # Agregar otras variables de entorno como se necesiten
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -88,14 +81,14 @@ jobs:
 
       - name: Download dependencies with NPM
         run: |
-          if [ "${{ env.NPM_INSTALL }}" == "true" ]; then
+          if [ "${{ inputs.npm_install }}" == "true" ]; then
             npm ci
           fi
         working-directory: front
 
       - name: Test CI with NPM
         run: |
-          if [ "${{ env.NPM_TEST }}" == "true" ]; then
+          if [ "${{ inputs.npm_test }}" == "true" ]; then
             npm run test-ci
           fi
         working-directory: front
@@ -103,11 +96,11 @@ jobs:
       - name: Run Sonar Scanner
         run: |
           mvn install verify sonar:sonar \
-            -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }} \
-            -Dsonar.projectName=${{ env.SONAR_PROJECT_NAME }} \
-            -Dsonar.host.url=${{ env.SONAR_HOST_URL }} \
-            -Dsonar.login=${{ env.SONAR_LOGIN_TOKEN }} \
-            -Dsonar.sources=${{ env.SONAR_SOURCES }} \
-            -Dsonar.exclusions=${{ env.SONAR_EXCLUSIONS }}
+            -Dsonar.projectKey=${{ inputs.sonar_project_key }} \
+            -Dsonar.projectName=${{ inputs.sonar_project_name }} \
+            -Dsonar.host.url=${{ inputs.sonar_host_url }} \
+            -Dsonar.login=${{ inputs.sonar_login_token }} \
+            -Dsonar.sources=${{ inputs.sonar_sources }} \
+            -Dsonar.exclusions=${{ inputs.sonar_exclusions }}
         working-directory: generator/jdk11/office-service
 
