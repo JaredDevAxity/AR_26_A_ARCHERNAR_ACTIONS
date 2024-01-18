@@ -48,15 +48,15 @@ jobs:
   build:
     runs-on: self-hosted
     env:
-      MAVEN_OPTS: ${{ inputs.maven_opts }}
-      SONAR_PROJECT_KEY: ${{ inputs.sonar_project_key }}
-      SONAR_PROJECT_NAME: ${{ inputs.sonar_project_name }}
-      SONAR_HOST_URL: ${{ inputs.sonar_host_url }}
-      SONAR_LOGIN_TOKEN: ${{ inputs.sonar_login_token }}
-      SONAR_SOURCES: ${{ inputs.sonar_sources }}
-      SONAR_EXCLUSIONS: ${{ inputs.sonar_exclusions }}
-      NPM_INSTALL: ${{ inputs.npm_install }}
-      NPM_TEST: ${{ inputs.npm_test }}
+      MAVEN_OPTS: ${{ github.event.inputs.maven_opts }}
+      SONAR_PROJECT_KEY: ${{ github.event.inputs.sonar_project_key }}
+      SONAR_PROJECT_NAME: ${{ github.event.inputs.sonar_project_name }}
+      SONAR_HOST_URL: ${{ github.event.inputs.sonar_host_url }}
+      SONAR_LOGIN_TOKEN: ${{ github.event.inputs.sonar_login_token }}
+      SONAR_SOURCES: ${{ github.event.inputs.sonar_sources }}
+      SONAR_EXCLUSIONS: ${{ github.event.inputs.sonar_exclusions }}
+      NPM_INSTALL: ${{ github.event.inputs.npm_install }}
+      NPM_TEST: ${{ github.event.inputs.npm_test }}
       # Agregar otras variables de entorno como se necesiten
 
     steps:
