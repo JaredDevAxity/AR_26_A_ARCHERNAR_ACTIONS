@@ -53,6 +53,9 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
+      - name: Config git
+        run: git config --system core.longpaths true
+        
       - name: Checkout
         uses: actions/checkout@v3
         with: 
