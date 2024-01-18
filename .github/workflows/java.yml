@@ -1,5 +1,5 @@
 name: Java SpringBoot CI
-
+run-name: Reusable workflow Java
 on:
   workflow_call: 
 
