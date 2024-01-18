@@ -1,0 +1,27 @@
+name: Java SpringBoot CI
+
+on:
+  push:
+    branches: [feature/* , develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Run Java SpringBoot CI
+        uses: your-repository/your-action@v1
+        with:
+          maven_opts: '-Xmx1024m'
+          sonar_project_key: 'your-sonar-project-key'
+          sonar_project_name: 'your-sonar-project-name'
+          sonar_host_url: 'https://your-sonar-host.com'
+          sonar_login_token: 'your-sonar-login-token'
+          sonar_sources: 'your-sonar-sources'
+          sonar_exclusions: 'your-sonar-exclusions'
+          npm_install: 'true'
+          npm_test: 'false'
+          # Add other inputs as needed
