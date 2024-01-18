@@ -2,7 +2,7 @@ name: Java SpringBoot CI
 
 on:
   push:
-    branches: [feature/* , develop ]
+    branches: [feature/* , develop, main ]
 
 jobs:
   build:
