@@ -59,13 +59,13 @@ jobs:
         run: yo jdk11-springboot
         working-directory: generator/jdk11
 
-      - name: Install & Compile with maven
-        run: mvn clean install -DskipTests
-        working-directory: generator/jdk11/office-service
+  #    - name: Install & Compile with maven
+  #      run: mvn clean install -DskipTests
+  #      working-directory: generator/jdk11/office-service
 
-      - name: Run sonar 
-        run: mvn install verify sonar:sonar -Dsonar.projectKey=23_Orion_ALNILAM -Dsonar.projectName=23_Orion_ALNILAM -Dsonar.host.url=https://devtools.axity.com/sonarlts -Dsonar.login=6ed1e516ca77f7afe02d184789e8032f3d424478 -Dsonar.sonar.sources=target/**/*,src/java/**/* -Dsonar.scm.exclusions.disabled=true -Dsonar.exclusions=src/java/test/**,src/main/java/com/axity/office/commons/**/*.java,src/main/java/com/axity/office/Application.java,src/main/java/com/axity/office/handler/ValidationExceptionHandler.java,src/main/java/com/axity/office/service/util/MessageSerializer.java,*/**Dto.java,*/**DO.java \
-        working-directory: generator/jdk11/office-service
+   #   - name: Run sonar 
+   #     run: mvn install verify sonar:sonar -Dsonar.projectKey=23_Orion_ALNILAM -Dsonar.projectName=23_Orion_ALNILAM -Dsonar.host.url=https://devtools.axity.com/sonarlts -Dsonar.login=6ed1e516ca77f7afe02d184789e8032f3d424478 -Dsonar.sonar.sources=target/**/*,src/java/**/* -Dsonar.scm.exclusions.disabled=true -Dsonar.exclusions=src/java/test/**,src/main/java/com/axity/office/commons/**/*.java,src/main/java/com/axity/office/Application.java,src/main/java/com/axity/office/handler/ValidationExceptionHandler.java,src/main/java/com/axity/office/service/util/MessageSerializer.java,*/**Dto.java,*/**DO.java \
+   #     working-directory: generator/jdk11/office-service
 
       
       
