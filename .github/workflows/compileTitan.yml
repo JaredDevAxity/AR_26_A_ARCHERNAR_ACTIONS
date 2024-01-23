@@ -26,6 +26,11 @@ jobs:
         working-directory: front
         if: success()
 
+      - name: test CI with NPM
+        run: npm run test-ci 
+        working-directory: front
+        if: success()
+
       
   
     
