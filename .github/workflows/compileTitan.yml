@@ -3,8 +3,17 @@ on:
   workflow_call:
     inputs:
       node-version:
-          required: true
-          type: string
+        required: true
+        type: string
+      project_name: 
+        required: true
+        type: string
+      sonar_server: 
+        required: true
+        type: string
+      sonar_token: 
+        required: true
+        type: string
 jobs:
   Compile-TITAN-Solution:
     runs-on: ubuntu-latest
@@ -33,9 +42,9 @@ jobs:
       - name: sonar-scanner
         run: |
           /opt/sonar-scanner/bin/sonar-scanner \
-          -Dsonar.projectKey=22_axity_angular_archetype \
-          -Dsonar.host.url=https://devtools.axity.com/sonarlts \
-          -Dsonar.login=d54f4f0b0ecc98ca94c88640833783fe52216269 \
+          -Dsonar.projectKey=${{inputs.project_name}} \
+          -Dsonar.host.url=${{inputs.sonar_server}} \
+          -Dsonar.login=${{inputs.sonar_token}} \
           -Dsonar.sourceEncoding=UTF-8 \
           -Dsonar.sources=src/app \
           -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/*.module.ts,**/app.child.imports.ts \
