@@ -44,7 +44,7 @@ jobs:
           -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
         working-directory: front
         shell: bash
-        if: successs()
+        if: success()
 
       
   
