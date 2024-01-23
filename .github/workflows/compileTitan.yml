@@ -7,7 +7,12 @@ on:
           type: string
 jobs:
   
-  Compile-Titan-Solution:
+  Setup-Node:
     uses: JaredDevAxity/AR_26_A_ARCHERNAR_ACTIONS/.github/workflows/setupNode.yml@main
     with: 
       node-version: ${{ inputs.node-version }}
+
+  Download-Dependencies:
+    uses: JaredDevAxity/AR_26_A_ARCHERNAR_ACTIONS/.github/workflows/downloadDependenciesNPM.yml@main
+
+    
