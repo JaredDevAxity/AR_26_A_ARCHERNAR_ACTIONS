@@ -8,6 +8,6 @@ on:
 jobs:
   
   Compile-Titan-Solution:
-    uses: Axitymx/AR_06_A_TRITON_ECOMMERCE_TOOLS/.github/workflows/netCompile.yml@main
+    uses: JaredDevAxity/AR_26_A_ARCHERNAR_ACTIONS/.github/workflows/setupNode.yml@main
     with: 
       node-version: ${{ inputs.node-version }}
