@@ -14,8 +14,6 @@ jobs:
 
   Download-dependencies: 
     needs: Setup-Node
-    runs-on: ubuntu-latest
-    steps:
-    - uses: JaredDevAxity/AR_26_A_ARCHERNAR_ACTIONS/.github/workflows/downloadDependenciesNPM.yml@main
+    uses: JaredDevAxity/AR_26_A_ARCHERNAR_ACTIONS/.github/workflows/downloadDependenciesNPM.yml@main
 
     
