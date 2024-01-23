@@ -31,6 +31,10 @@ jobs:
         working-directory: front
         if: success()
 
+      - name: Sonar-scanner
+        uses: JaredDevAxity/AR_26_A_ARCHERNAR_ACTIONS/.github/workflows/sonar.yml@main
+        if: success()
+
       
   
     
