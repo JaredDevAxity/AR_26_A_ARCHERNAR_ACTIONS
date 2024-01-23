@@ -6,7 +6,7 @@ on:
           required: true
           type: string
 jobs:
-  Build-Titan:
+  Compile-TITAN-Solution:
     runs-on: ubuntu-latest
 
     steps: 
@@ -26,7 +26,7 @@ jobs:
         working-directory: front
         if: success()
 
-      - name: test CI with NPM
+      - name: Test CI with NPM
         run: npm run test-ci 
         working-directory: front
         if: success()
