@@ -19,7 +19,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ inputs.node-version }}
-        if: success()
 
       - name: Download dependencies with NPM
         run: npm ci
@@ -31,9 +30,21 @@ jobs:
         working-directory: front
         if: success()
 
-      - name: Sonar-scanner
-        uses: JaredDevAxity/AR_26_A_ARCHERNAR_ACTIONS/.github/workflows/sonar.yml@main
-        if: success()
+      - name: sonar-scanner
+        run: |
+          /opt/sonar-scanner/bin/sonar-scanner \
+          -Dsonar.projectKey=22_axity_angular_archetype \
+          -Dsonar.host.url=https://devtools.axity.com/sonarlts \
+          -Dsonar.login=d54f4f0b0ecc98ca94c88640833783fe52216269 \
+          -Dsonar.sourceEncoding=UTF-8 \
+          -Dsonar.sources=src/app \
+          -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/*.module.ts,**/app.child.imports.ts \
+          -Dsonar.tests=src \
+          -Dsonar.test.inclusions=**/*.spec.ts \
+          -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+        working-directory: front
+        shell: bash
+        if: successs()
 
       
   
