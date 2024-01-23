@@ -16,4 +16,7 @@ jobs:
     needs: Setup-Node
     uses: JaredDevAxity/AR_26_A_ARCHERNAR_ACTIONS/.github/workflows/downloadDependenciesNPM.yml@main
 
+  Run-test:
+    needs: Download-dependencies
+    uses: JaredDevAxity/AR_26_A_ARCHERNAR_ACTIONS/.github/workflows/TestWithNPM.yml@main
     
