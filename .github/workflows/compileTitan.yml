@@ -1,0 +1,13 @@
+name: Compile TITAN
+on:
+  workflow_call:
+    inputs:
+      node-version:
+          required: true
+          type: string
+jobs:
+  
+  Compile-Titan-Solution:
+    uses: Axitymx/AR_06_A_TRITON_ECOMMERCE_TOOLS/.github/workflows/netCompile.yml@main
+    with: 
+      node-version: ${{ inputs.node-version }}
