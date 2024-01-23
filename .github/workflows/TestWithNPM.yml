@@ -1,0 +1,15 @@
+name: Run Test CI
+on:
+  workflow_call:
+jobs:
+  Run-Test:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout 
+          uses: actions/checkout@v3
+          with:
+            fetch-depht: 0
+        - name: Test CI with NPM
+          run: npm run test-ci
+          working-directory: front
+          
