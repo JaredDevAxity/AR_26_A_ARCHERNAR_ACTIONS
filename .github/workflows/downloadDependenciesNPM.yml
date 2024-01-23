@@ -1,0 +1,12 @@
+name: Download dependencies with NPM
+on:
+  workflow_call:
+    
+jobs:
+  Solution:
+      runs-on: ubuntu-latest
+      steps: 
+      - name: NPM
+        run: npm ci
+        working-directory: front
+        
