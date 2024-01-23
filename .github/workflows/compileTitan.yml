@@ -8,11 +8,9 @@ on:
 jobs:
   
   Setup-Node:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: JaredDevAxity/AR_26_A_ARCHERNAR_ACTIONS/.github/workflows/setupNode.yml@main
-      with: 
-        node-version: ${{ inputs.node-version }}
+    uses: JaredDevAxity/AR_26_A_ARCHERNAR_ACTIONS/.github/workflows/setupNode.yml@main
+    with: 
+      node-version: ${{ inputs.node-version }}
 
   Download-dependencies: 
     needs: Setup-Node
