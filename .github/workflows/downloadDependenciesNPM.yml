@@ -6,6 +6,10 @@ jobs:
   Solution:
       runs-on: ubuntu-latest
       steps: 
+      - name: Checkout 
+        uses: actions/checkout@v3
+        with:
+          fetch-depht: 0
       - name: NPM
         run: npm ci
         working-directory: front
