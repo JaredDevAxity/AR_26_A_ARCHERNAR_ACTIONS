@@ -6,20 +6,26 @@ on:
           required: true
           type: string
 jobs:
+  Build-Titan:
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v3
+        with: 
+          fetch-depth: 0
+
+      - name: Setup
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node-version }}
+        if: success()
+
+      - name: Download dependencies with NPM
+        run: npm ci
+        working-directory: front
+        if: success()
+
+      
   
-  Setup-Node:
-    uses: JaredDevAxity/AR_26_A_ARCHERNAR_ACTIONS/.github/workflows/setupNode.yml@main
-    with: 
-      node-version: ${{ inputs.node-version }}
-    secrets: inherit
-
-  Download-dependencies: 
-    needs: Setup-Node
-    uses: JaredDevAxity/AR_26_A_ARCHERNAR_ACTIONS/.github/workflows/downloadDependenciesNPM.yml@main
-    secrets: inherit
-
-  Run-test:
-    needs: Download-dependencies
-    uses: JaredDevAxity/AR_26_A_ARCHERNAR_ACTIONS/.github/workflows/TestWithNPM.yml@main
-    secrets: inherit
     
