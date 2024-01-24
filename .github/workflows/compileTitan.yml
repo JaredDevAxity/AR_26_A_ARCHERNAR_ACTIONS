@@ -32,7 +32,7 @@ jobs:
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         with: 
-          projectBaseDir: front/src/app
+          projectBaseDir: front
           args: >
             -Dsonar.projectKey=Test_CREA_Sonar_Archernar
             -Dsonar.sourceEncoding=UTF-8
