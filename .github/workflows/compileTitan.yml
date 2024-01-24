@@ -41,7 +41,7 @@ jobs:
 
       - name: Download dependencies
         uses: actions/download-artifact@v2
-        width: 
+        with: 
           name: node_modules
           path: front/node_modules
 
