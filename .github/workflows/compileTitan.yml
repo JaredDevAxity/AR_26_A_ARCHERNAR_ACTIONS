@@ -24,6 +24,12 @@ jobs:
         working-directory: front
         if: success()
 
+      - name: Archive dependencies
+        uses: actions/upload-artifact@v2
+        with: 
+          name: node_modules
+          path: front/node_modules
+
   Run-Test:
     needs: Compile-TITAN-Solution
     runs-on: ubuntu-latest
@@ -32,6 +38,12 @@ jobs:
         uses: actions/checkout@v3
         with: 
           fetch-depth: 0
+
+      - name: Download dependencies
+        uses: actions/download-artifact@v2
+        width: 
+          name: node_modules
+          path: front/node_modules
 
       - name: Test CI with NPM
         run: npm run test-ci 
