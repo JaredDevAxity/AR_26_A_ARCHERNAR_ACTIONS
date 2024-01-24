@@ -19,6 +19,11 @@ jobs:
         with:
           node-version: ${{ inputs.node-version }}
 
+      - name: Download dependencies with NPM
+        run: npm ci
+        working-directory: front
+        if: success()
+
       
 
       
