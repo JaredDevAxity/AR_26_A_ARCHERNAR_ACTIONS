@@ -35,7 +35,7 @@ jobs:
           args: >
             -Dsonar.projectKey=Test_CREA_Sonar_Archernar
             -Dsonar.sourceEncoding=UTF-8
-            -Dsonar.sources=src/app
+            -Dsonar.sources=front/src/app
             -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/*.module.ts,**/app.child.imports.ts
             -Dsonar.tests=src
             -Dsonar.test.inclusions=**/*.spec.ts
