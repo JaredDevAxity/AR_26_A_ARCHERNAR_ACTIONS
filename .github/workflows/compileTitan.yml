@@ -5,9 +5,6 @@ on:
       node-version:
         required: true
         type: string
-      base-dir-sonar: 
-        required: true
-        type: string
       projectKey: 
         required: true
         type: string
@@ -44,7 +41,7 @@ jobs:
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         with: 
-          projectBaseDir:  front/src/app
+          projectBaseDir: front
           args: >
            -Dsonar.projectKey=${{ inputs.projectKey }}
            -Dsonar.sourceEncoding=UTF-8 \
