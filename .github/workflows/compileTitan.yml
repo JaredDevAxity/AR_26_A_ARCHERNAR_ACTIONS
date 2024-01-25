@@ -5,6 +5,13 @@ on:
       node-version:
         required: true
         type: string
+      base-dir-sonar: 
+        required: true
+        type: string
+      projectKey: 
+        required: true
+        type: string
+        
 jobs:
   Compile-TITAN-Solution:
     runs-on: ubuntu-latest
@@ -28,6 +35,27 @@ jobs:
         run: npm run test-ci 
         working-directory: front
         if: success()
+        
+      - name: Checkout
+        uses: actions/checkout@v3
+        with: 
+          fetch-depth: 0
+          
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        with: 
+          projectBaseDir:  front/src/app
+          args: >
+           -Dsonar.projectKey=${{ inputs.projectKey }}
+           -Dsonar.sourceEncoding=UTF-8 \
+           -Dsonar.sources=src/app \
+           -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/*.module.ts,**/app.child.imports.ts \
+           -Dsonar.tests=src \
+           -Dsonar.test.inclusions=**/*.spec.ts \
+           -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
 
 
