@@ -50,6 +50,7 @@ jobs:
            -Dsonar.sourceEncoding=UTF-8 \
            -Dsonar.sources=src/app \
            -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/*.module.ts,**/app.child.imports.ts \
+           -Dsonar.sources=src/app
            -Dsonar.tests=src \
            -Dsonar.test.inclusions=**/*.spec.ts \
            -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
