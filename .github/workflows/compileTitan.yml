@@ -13,35 +13,21 @@ jobs:
   Compile-TITAN-Solution:
     runs-on: ubuntu-latest
     steps: 
-      - name: Checkout
-        uses: actions/checkout@v3
-        with: 
-          fetch-depth: 0
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ inputs.node-version }}
-
-      - name: Download dependencies with NPM
-        run: npm ci
-        working-directory: front
-        if: success()
-
-      - name: Test CI with NPM
-        run: npm run test-ci 
-        working-directory: front
-        if: success()
-
       - name: SonarQube Scan
-        run: |
-          npm install -g sonarqube-scanner
-          sonar-scanner \
-            -Dsonar.projectKey=${{ inputs.projectKey }} \
-            -Dsonar.sources=src/app  \
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-        working-directory: front
+        uses: sonarsource/sonarqube-scan-action@master
+        with: 
+          projectBaseDir: front
+          args: >
+           -Dsonar.projectKey=${{ inputs.projectKey }}
+           -Dsonar.sourceEncoding=UTF-8 
+           -Dsonar.sources=src/app 
+           -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/*.module.ts,**/app.child.imports.ts 
+           -Dsonar.tests=src 
+           -Dsonar.test.inclusions=**/*.spec.ts 
+           -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
       
 
