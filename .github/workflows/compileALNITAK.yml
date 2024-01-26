@@ -1,0 +1,61 @@
+name: Compile ALNITAK
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        required: true
+        type: string
+      directory-dependencies: 
+        required: true
+        type: string
+      name-service: 
+        required: true
+        type: string
+        
+jobs:
+  Compile-TITAN-Solution:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v3
+        with: 
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - name: Update npm
+        run: npm install -g npm@latest
+
+      - name: Install Yeoman
+        run: npm install -g yo generator-code yeoman-generator
+
+      - name: Install Dependencies
+        run: |
+          npm install
+          npm link
+        working-directory: ${{ inputs.directory-dependencies }}
+
+      - name: Generate Project
+        run: yo nodejs
+        working-directory: ${{ inputs.directory-dependencies }}
+
+      - name: Compile Generated Code
+        run: |
+          npm install
+          npm test
+          npm run coverage
+        working-directory: ${{ inputs.directory-dependencies }}/{{ inputs.name-service }}-service
+
+      - name: Microsoft Teams Notification
+        uses: jdcargile/ms-teams-notification@v1.3
+        with:
+          github-token: ${{ github.token }} # this will use the runner's token.
+          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          notification-summary: Your custom notification message 
+          notification-color: 17a2b8
+          timezone: America/Denver
+        
+        
