@@ -13,7 +13,7 @@ on:
         type: string
         
 jobs:
-  Compile-TITAN-Solution:
+  Compile-ALNITAK-Solution:
     runs-on: ubuntu-latest
     steps: 
       - name: Checkout
@@ -47,7 +47,7 @@ jobs:
           npm install
           npm test
           npm run coverage
-        working-directory: ${{ inputs.directory-dependencies }}/{{ inputs.name-service }}-service
+        working-directory: ${{ inputs.directory-dependencies }}/${{ inputs.name-service }}-service
 
       - name: Microsoft Teams Notification
         uses: jdcargile/ms-teams-notification@v1.3
