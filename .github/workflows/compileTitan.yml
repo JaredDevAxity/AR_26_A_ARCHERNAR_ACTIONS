@@ -32,24 +32,9 @@ jobs:
         run: npm run test-ci 
         working-directory: front
         if: success()
-          
-      - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@master
-        with: 
-          projectBaseDir: front
-          args: >
-           -Dsonar.projectKey=${{ inputs.projectKey }}
-           -Dsonar.sourceEncoding=UTF-8 
-           -Dsonar.sources=src/app 
-           -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/*.module.ts,**/app.child.imports.ts 
-           -Dsonar.tests=src 
-           -Dsonar.test.inclusions=**/*.spec.ts 
-           -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
-      - uses: phwt/sonarqube-quality-gate-action@v1
+      - name: Quality-gate-check
+        uses: phwt/sonarqube-quality-gate-action@v1
         id: quality-gate-check
         with:
           sonar-project-key: ${{ inputs.projectKey }}
@@ -62,6 +47,27 @@ jobs:
         run: |
           echo "${{ steps.quality-gate-check.outputs.project-status }}"
           echo "${{ steps.quality-gate-check.outputs.quality-gate-result }}"
+
+          if [ "${{ steps.quality-gate-check.outputs.project-status }}" == "OK" ]; then
+          echo "Quality gate check passed. Running SonarQube scan..."
+
+          - name: SonarQube Scan
+            uses: sonarsource/sonarqube-scan-action@master
+            with: 
+              projectBaseDir: front
+              args: >
+               -Dsonar.projectKey=${{ inputs.projectKey }}
+               -Dsonar.sourceEncoding=UTF-8 
+               -Dsonar.sources=src/app 
+               -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/*.module.ts,**/app.child.imports.ts 
+               -Dsonar.tests=src 
+               -Dsonar.test.inclusions=**/*.spec.ts 
+               -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+            env:
+              SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+              SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+    
+          
 
 
       
