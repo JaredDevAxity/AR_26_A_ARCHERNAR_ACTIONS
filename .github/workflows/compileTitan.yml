@@ -31,11 +31,21 @@ jobs:
       run: npm run test-ci 
       working-directory: front
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v2
+    - name: SonarQube Scan
+      uses: sonarsource/sonarqube-scan-action@master
       with: 
-        name: front
-        path: front
+        projectBaseDir: front
+        args: >
+         -Dsonar.projectKey=${{ inputs.projectKey }}
+         -Dsonar.sourceEncoding=UTF-8 
+         -Dsonar.sources=src/app 
+         -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/*.module.ts,**/app.child.imports.ts 
+         -Dsonar.tests=src 
+         -Dsonar.test.inclusions=**/*.spec.ts 
+         -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
     
 
