@@ -23,6 +23,10 @@ jobs:
       with:
         node-version: ${{ inputs.node-version }}
 
+    - name: Download Dependencies
+      run: npm ci
+      working-directory: front
+
   
 
       
