@@ -25,6 +25,7 @@ jobs:
 
     - name: Download Dependencies
       run: npm ci
+      working-directory: front
       
 
     - name: Test CI with NPM
