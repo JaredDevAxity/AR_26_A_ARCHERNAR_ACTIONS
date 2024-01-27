@@ -17,36 +17,11 @@ jobs:
       uses: actions/checkout@v3
       with: 
         fetch-depth: 0
-    
-    - name: SonarQube Scan
-      uses: sonarsource/sonarqube-scan-action@master
-      with: 
-        projectBaseDir: front
-        args: >
-          -Dsonar.projectKey=${{ inputs.projectKey }}
-          -Dsonar.sourceEncoding=UTF-8 
-          -Dsonar.sources=src/app 
-          -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/*.module.ts,**/app.child.imports.ts 
-          -Dsonar.tests=src 
-          -Dsonar.test.inclusions=**/*.spec.ts 
-          -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
-    - uses: phwt/sonarqube-quality-gate-action@v1
-      id: quality-gate-check
+    - name: Setup Node
+      uses: actions/setup-node@v3
       with:
-        sonar-project-key: ${{ inputs.projectKey }}
-        sonar-host-url: ${{ secrets.SONAR_HOST_URL }}
-        sonar-token: ${{ secrets.SONAR_TOKEN }}
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        branch: main # Optional input
-
-    - name: Output result
-      run: |
-        echo "${{ steps.quality-gate-check.outputs.project-status }}"
-        echo "${{ steps.quality-gate-check.outputs.quality-gate-result }}"
+        node-version: ${{ inputs.node-version }}
 
   
 
