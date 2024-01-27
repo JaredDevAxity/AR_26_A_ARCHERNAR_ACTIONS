@@ -49,13 +49,22 @@ jobs:
           npm run coverage
         working-directory: ${{ inputs.directory-dependencies }}/${{ inputs.name-service }}-service
 
-      - name: Microsoft Teams Notification
+      - name: Microsoft Teams Notification on Success
         uses: jdcargile/ms-teams-notification@v1.3
         with:
-          github-token: ${{ github.token }} # this will use the runner's token.
+          github-token: ${{ github.token }}
           ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
-          notification-summary: Your custom notification message 
-          notification-color: 17a2b8
-          timezone: America/Denver
+          notification-summary: ¡Operación Exitosa! 
+          notification-color: 008000  # Green color
+        if: success()
+
+      - name: Microsoft Teams Notification on Failure
+        uses: jdcargile/ms-teams-notification@v1.3
+        with:
+          github-token: ${{ github.token }}
+          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          notification-summary: ¡Ocurrió un error! 
+          notification-color: FF0000  # Red color
+        if: failure()
         
         
