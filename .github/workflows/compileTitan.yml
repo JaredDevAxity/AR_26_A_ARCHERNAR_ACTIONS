@@ -10,7 +10,7 @@ on:
         type: string
         
 jobs:
-  Build-Titan-Solution:
+  Compile-Titan-Solution:
     runs-on: ubuntu-latest
     steps: 
     - name: Checkout
