@@ -10,7 +10,7 @@ on:
         type: string
         
 jobs:
-  Compile-TITAN-Solution:
+  Build-Titan-Solution:
     runs-on: ubuntu-latest
     steps: 
     - name: Checkout
@@ -26,6 +26,14 @@ jobs:
     - name: Download Dependencies
       run: npm ci
       working-directory: front
+
+    - name: Upload Artifact
+      uses: action/upload-artifact@v2
+      with: 
+        name: front
+        path: front
+
+    
 
   
 
