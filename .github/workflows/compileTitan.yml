@@ -31,6 +31,12 @@ jobs:
       run: npm run test-ci 
       working-directory: front
 
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with: 
+        name: front
+        path: front
+
     
 
     
