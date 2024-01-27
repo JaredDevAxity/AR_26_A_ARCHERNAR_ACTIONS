@@ -27,15 +27,11 @@ jobs:
       run: npm ci
       working-directory: front
 
-    - name: Construir la aplicación
-      run: npm run build
+    - name: Test CI with NPM
+      run: npm run test-ci 
       working-directory: front
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v2
-      with: 
-        name: front
-        path: front
+    
 
     
 
