@@ -27,6 +27,9 @@ jobs:
       run: npm ci
       working-directory: front
 
+    - name: Construir la aplicación
+      run: npm run build
+
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with: 
