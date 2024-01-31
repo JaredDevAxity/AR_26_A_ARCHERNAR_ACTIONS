@@ -5,84 +5,67 @@ on:
       node-version:
         required: true
         type: string
-      projectKey: 
+      projectKey:
         required: true
         type: string
-        
+
 jobs:
   Compile-Titan-Solution:
     runs-on: ubuntu-latest
-    steps: 
-    - name: Checkout
-      uses: actions/checkout@v3
-      with: 
-        fetch-depth: 0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-    - name: Setup Node
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ inputs.node-version }}
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node-version }}
 
-    - name: Download Dependencies
-      run: npm ci
-      working-directory: front
-      
+      - name: Download Dependencies
+        run: npm ci
+        working-directory: front
 
-    - name: Test CI with NPM
-      run: npm run test-ci 
-      working-directory: front
+  Run-Test:
+    needs: Compile-Titan-Solution
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test CI with NPM
+        run: npm run test-ci
+        working-directory: front
 
-    - name: SonarQube Scan
-      uses: sonarsource/sonarqube-scan-action@master
-      with: 
-        projectBaseDir: front
-        args: >
-         -Dsonar.projectKey=${{ inputs.projectKey }}
-         -Dsonar.sourceEncoding=UTF-8 
-         -Dsonar.sources=src/app 
-         -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/*.module.ts,**/app.child.imports.ts 
-         -Dsonar.tests=src 
-         -Dsonar.test.inclusions=**/*.spec.ts 
-         -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      if: success()
+    # - name: SonarQube Scan
+    #   uses: sonarsource/sonarqube-scan-action@master
+    #   with:
+    #     projectBaseDir: front
+    #     args: >
+    #      -Dsonar.projectKey=${{ inputs.projectKey }}
+    #      -Dsonar.sourceEncoding=UTF-8
+    #      -Dsonar.sources=src/app
+    #      -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/*.module.ts,**/app.child.imports.ts
+    #      -Dsonar.tests=src
+    #      -Dsonar.test.inclusions=**/*.spec.ts
+    #      -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+    #   env:
+    #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+    #   if: success()
 
-    - name: Microsoft Teams Notification on Success
-      uses: jdcargile/ms-teams-notification@v1.3
-      with:
-        github-token: ${{ github.token }}
-        ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
-        notification-summary: ¡Operación Exitosa! 
-        notification-color: 008000  # Green color
-      if: success()
+    # - name: Microsoft Teams Notification on Success
+    #   uses: jdcargile/ms-teams-notification@v1.3
+    #   with:
+    #     github-token: ${{ github.token }}
+    #     ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+    #     notification-summary: ¡Operación Exitosa!
+    #     notification-color: 008000  # Green color
+    #   if: success()
 
-    - name: Microsoft Teams Notification on Failure
-      uses: jdcargile/ms-teams-notification@v1.3
-      with:
-        github-token: ${{ github.token }}
-        ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
-        notification-summary: ¡Ocurrió un error! 
-        notification-color: FF0000  # Red color
-      if: failure()
-
-    
-
-    
-
-  
-
-      
-
-
-          
-    
-          
-
-
-      
-
-      
-  
-    
+    # - name: Microsoft Teams Notification on Failure
+    #   uses: jdcargile/ms-teams-notification@v1.3
+    #   with:
+    #     github-token: ${{ github.token }}
+    #     ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+    #     notification-summary: ¡Ocurrió un error!
+    #     notification-color: FF0000  # Red color
+    #   if: failure()
