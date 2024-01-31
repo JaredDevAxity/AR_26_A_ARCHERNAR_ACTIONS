@@ -1,1 +1,10 @@
-
+name: Compile ALNILAM
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        required: true
+        type: string
+      projectKey: 
+        required: true
+        type: string
