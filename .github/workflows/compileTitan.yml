@@ -10,7 +10,7 @@ on:
         type: string
 
 jobs:
-  Compile-Titan-Solution:
+  Build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -27,8 +27,12 @@ jobs:
         run: npm ci
         working-directory: front
 
-  Run-Test:
-    needs: Compile-Titan-Solution
+      - name: Build
+        run: npm run build
+        working-directory: front
+
+  Test:
+    needs: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
