@@ -52,7 +52,7 @@ jobs:
         name: dist
         path: generator/jdk11/office-service
 
-  Test: 
+  Test2: 
     needs: Build
     runs-on: self-hosted
     steps: 
