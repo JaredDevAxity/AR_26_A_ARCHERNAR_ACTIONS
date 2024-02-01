@@ -71,11 +71,6 @@ jobs:
           name: dist
       - name: Install & Compile with maven
         run: mvn clean install -DskipTests
-      - name: Archive Test
-        uses: actions/upload-artifact@v4
-        with:
-          name: test
-          path: test
 
   Sonar: 
     needs: [Build, Test]
