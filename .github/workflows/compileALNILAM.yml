@@ -60,6 +60,10 @@ jobs:
         uses: actions/checkout@v3
         with: 
           fetch-depth: 0
+      - name: Download a single artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
       - name: Install & Compile with maven
         run: mvn clean install -DskipTests
         working-directory: generator/jdk11/office-service
