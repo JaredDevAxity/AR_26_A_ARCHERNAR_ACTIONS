@@ -66,4 +66,4 @@ jobs:
           name: dist
       - name: Install & Compile with maven
         run: mvn clean install -DskipTests
-        working-directory: generator/jdk11/office-service
+        
