@@ -10,91 +10,91 @@ on:
         type: string
 
 jobs:
-  Docker:
-    runs-on: ubuntu-latest
+  Build:
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
+      - name: Setup
+        uses: actions/setup-node@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build and push
-        uses: docker/build-push-action@v5
+          node-version: ${{ inputs.node-version }}
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
         with:
-          context: ./generator/jdk11/generators/office-service/
-          file: ./generator/jdk11/generators/office-service/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
+          java-version: ${{ inputs.java-version }}
+          distribution: "temurin"
 
-  # Build:
-  #   runs-on: self-hosted
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #       with:
-  #         fetch-depth: 0
-  #     - name: Setup
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: ${{ inputs.node-version }}
-  #     - name: Set up JDK 11
-  #       uses: actions/setup-java@v3
-  #       with:
-  #         java-version: ${{ inputs.java-version }}
-  #         distribution: "temurin"
+      - name: Setup Maven Action
+        uses: s4u/setup-maven-action@v1.7.0
+        with:
+          java-version: ${{ inputs.java-version }}
+          maven-version: 3.8.7
+      - name: Install Yeoman
+        run: |
+          npm install -g yo generator-code yeoman-generator
+          npm install
+          npm link
+        working-directory: generator/jdk11
+      - name: Generate code
+        run: yo jdk11-springboot
+        working-directory: generator/jdk11
+      - name: Archive Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: generator/jdk11/office-service
 
-  #     - name: Setup Maven Action
-  #       uses: s4u/setup-maven-action@v1.7.0
-  #       with:
-  #         java-version: ${{ inputs.java-version }}
-  #         maven-version: 3.8.7
-  #     - name: Install Yeoman
-  #       run: |
-  #         npm install -g yo generator-code yeoman-generator
-  #         npm install
-  #         npm link
-  #       working-directory: generator/jdk11
-  #     - name: Generate code
-  #       run: yo jdk11-springboot
-  #       working-directory: generator/jdk11
-  #     - name: Archive Build
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: dist
-  #         path: generator/jdk11/office-service
-
-  # Test:
-  #   needs: Build
-  #   runs-on: self-hosted
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #       with:
-  #         fetch-depth: 0
-  #     - name: Set up JDK 11
-  #       uses: actions/setup-java@v3
-  #       with:
-  #         java-version: ${{ inputs.java-version }}
-  #         distribution: "temurin"
-  #     - name: Setup Maven Action
-  #       uses: s4u/setup-maven-action@v1.7.0
-  #       with:
-  #         java-version: ${{ inputs.java-version }}
-  #         maven-version: 3.8.7
-  #     - name: Download dist
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: dist
-  #     - name: Install & Compile with maven
-  #       run: mvn clean install -DskipTests
-  #     - name: Run sonar
-  #       run: mvn install verify sonar:sonar -Dsonar.projectKey=Test_CREA_Sonar_Archernar -Dsonar.projectName=ALNILAM-Test -Dsonar.host.url=https://devtools.axity.com/sonarlts -Dsonar.login=sqp_62d48b60880f8f08933ee1c5fcaacb584c2f361e -Dsonar.sonar.sources=target/**/*,src/java/**/* -Dsonar.scm.exclusions.disabled=true -Dsonar.exclusions=src/java/test/**,src/main/java/com/axity/office/commons/**/*.java,src/main/java/com/axity/office/Application.java,src/main/java/com/axity/office/handler/ValidationExceptionHandler.java,src/main/java/com/axity/office/service/util/MessageSerializer.java,*/**Dto.java,*/**DO.java \
+  Test:
+    needs: Build
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ inputs.java-version }}
+          distribution: "temurin"
+      - name: Setup Maven Action
+        uses: s4u/setup-maven-action@v1.7.0
+        with:
+          java-version: ${{ inputs.java-version }}
+          maven-version: 3.8.7
+      - name: Download dist
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+      - name: Install & Compile with maven
+        run: mvn clean install -DskipTests
+      - name: Run sonar
+        run: mvn install verify sonar:sonar -Dsonar.projectKey=Test_CREA_Sonar_Archernar -Dsonar.projectName=ALNILAM-Test -Dsonar.host.url=https://devtools.axity.com/sonarlts -Dsonar.login=sqp_62d48b60880f8f08933ee1c5fcaacb584c2f361e -Dsonar.sonar.sources=target/**/*,src/java/**/* -Dsonar.scm.exclusions.disabled=true -Dsonar.exclusions=src/java/test/**,src/main/java/com/axity/office/commons/**/*.java,src/main/java/com/axity/office/Application.java,src/main/java/com/axity/office/handler/ValidationExceptionHandler.java,src/main/java/com/axity/office/service/util/MessageSerializer.java,*/**Dto.java,*/**DO.java \
+        
+  Docker:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+          with:
+            fetch-depth: 0
+  
+        - name: Login to Docker Hub
+          uses: docker/login-action@v3
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
+  
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v3
+  
+        - name: Build and push
+          uses: docker/build-push-action@v5
+          with:
+            context: ./generator/jdk11/generators/office-service/
+            file: ./generator/jdk11/generators/office-service/Dockerfile
+            push: true
+            tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
