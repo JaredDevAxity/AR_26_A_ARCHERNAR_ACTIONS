@@ -10,7 +10,7 @@ on:
         type: string
         
 jobs:
-  Compile-ALNILAM-Solution:
+  Build:
     runs-on: self-hosted
     steps: 
     - name: Checkout
@@ -46,6 +46,14 @@ jobs:
       run: yo jdk11-springboot
       working-directory: generator/jdk11
 
-    - name: Install & Compile with maven
-      run: mvn clean install -DskipTests
-      working-directory: generator/jdk11/office-service
+  Test: 
+    needs: Build
+    runs-on: self-hosted
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v3
+        with: 
+          fetch-depth: 0
+      - name: Install & Compile with maven
+        run: mvn clean install -DskipTests
+        working-directory: generator/jdk11/office-service
