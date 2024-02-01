@@ -32,7 +32,7 @@ jobs:
         with:
           context: .
           file: ./generator/jdk11/generators/office-service/Dockerfile
-          push: true
+          push: false
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
 
   # Build:
