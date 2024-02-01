@@ -75,6 +75,7 @@ jobs:
         run: mvn install verify sonar:sonar -Dsonar.projectKey=Test_CREA_Sonar_Archernar -Dsonar.projectName=ALNILAM-Test -Dsonar.host.url=https://devtools.axity.com/sonarlts -Dsonar.login=sqp_62d48b60880f8f08933ee1c5fcaacb584c2f361e -Dsonar.sonar.sources=target/**/*,src/java/**/* -Dsonar.scm.exclusions.disabled=true -Dsonar.exclusions=src/java/test/**,src/main/java/com/axity/office/commons/**/*.java,src/main/java/com/axity/office/Application.java,src/main/java/com/axity/office/handler/ValidationExceptionHandler.java,src/main/java/com/axity/office/service/util/MessageSerializer.java,*/**Dto.java,*/**DO.java \
         
   Docker:
+      needs: [Build, Test]
       runs-on: ubuntu-latest
       steps:
         - name: Checkout
