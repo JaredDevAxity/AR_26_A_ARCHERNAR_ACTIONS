@@ -100,7 +100,7 @@ jobs:
             push: true
             tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
 
-  NotifyTeams:
+  NotifyTeamsError:
     runs-on: ubuntu-latest
     needs: [Build, Test, Docker]  # Ensure notifications are sent after all jobs complete
     if: failure()
@@ -112,3 +112,17 @@ jobs:
           ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
           notification-summary: ¡Ocurrió un error!
           notification-color: FF0000  # Red color
+          
+  NotifyTeamsSuccess: 
+    runs-on: ubuntu-latest
+    needs: [Build, Test, Docker]  
+    if: success()
+    steps: 
+      - name: Send success notification to Teams
+        uses: jdcargile/ms-teams-notification@v1.3
+        with:
+          github-token: ${{ github.token }}
+          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
+          notification-summary: ¡Operación Exitosa!
+          notification-color: 008000  # Green color
+  
