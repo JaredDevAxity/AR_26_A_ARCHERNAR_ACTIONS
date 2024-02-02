@@ -11,6 +11,9 @@ on:
       path-base: 
         required: true
         type: string
+      name-service: 
+        required: true
+        type: string
 
 jobs:
   Build:
@@ -48,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dist
-          path: ${{ inputs.path-base }}/generator/jdk11/office-service
+          path: ${{ inputs.path-base }}/generator/jdk11/${{ inputs.name-service }}-service
 
   Test:
     needs: Build
