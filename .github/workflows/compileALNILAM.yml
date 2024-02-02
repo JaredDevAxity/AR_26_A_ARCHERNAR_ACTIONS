@@ -8,6 +8,9 @@ on:
       java-version:
         required: true
         type: string
+      path-base: 
+        required: true
+        type: string
 
 jobs:
   Build:
@@ -37,15 +40,15 @@ jobs:
           npm install -g yo generator-code yeoman-generator
           npm install
           npm link
-        working-directory: generator/jdk11
+        working-directory: ${{ inputs.path-base }}/generator/jdk11
       - name: Generate code
         run: yo jdk11-springboot
-        working-directory: generator/jdk11
+        working-directory: ${{ inputs.path-base }}/generator/jdk11
       - name: Archive Build
         uses: actions/upload-artifact@v4
         with:
           name: dist
-          path: generator/jdk11/office-service
+          path: ${{ inputs.path-base }}/generator/jdk11/office-service
 
   Test:
     needs: Build
