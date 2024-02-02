@@ -103,18 +103,9 @@ jobs:
   NotifyTeams:
     runs-on: ubuntu-latest
     needs: [Build, Test, Docker]  # Ensure notifications are sent after all jobs complete
+    if: failure()
     steps:
-      - name: Send success notification to Teams
-        if: success()
-        uses: jdcargile/ms-teams-notification@v1.3
-        with:
-          github-token: ${{ github.token }}
-          ms-teams-webhook-uri: ${{ secrets.MS_TEAMS_WEBHOOK_URI }}
-          notification-summary: ¡Operación Exitosa!
-          notification-color: 008000  # Green color
-
       - name: Send failure notification to Teams
-        if: failure()
         uses: jdcargile/ms-teams-notification@v1.3
         with:
           github-token: ${{ github.token }}
