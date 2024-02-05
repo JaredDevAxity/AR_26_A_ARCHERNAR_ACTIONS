@@ -1,2 +1,2 @@
-* GIT ACTIONS
+## GIT ACTIONS
   
