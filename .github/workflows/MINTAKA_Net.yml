@@ -39,6 +39,6 @@ jobs:
 
       - name: Restore dependencies
         run: dotnet restore
-        working-directory: generator/6.0/Generator/generator-netcore6/arquetipounittesting-service
+        working-directory: generator/6.0/Generator/generator-netcore6/arquetipounittesting-service/Axity.ArquetipoUnitTesting.API
 
         
