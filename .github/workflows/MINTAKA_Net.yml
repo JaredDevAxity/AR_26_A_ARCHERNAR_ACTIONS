@@ -65,6 +65,9 @@ jobs:
         with:
           java-version: '17'
           distribution: "temurin"
+      - name: Listar carpetar
+        run: |
+          ls -la
       - name: SonarQube Analysis
         run: |
           dotnet tool install --global dotnet-sonarscanner
