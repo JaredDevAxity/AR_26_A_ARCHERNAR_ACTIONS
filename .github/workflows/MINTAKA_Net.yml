@@ -69,7 +69,7 @@ jobs:
           npm link
         working-directory: generator/3.1/Generator
       - name: Generate code
-        run: yo netcore3
+        run: yo netcore3 "axity"
         working-directory: generator/3.1/Generator
 
   Test: 
