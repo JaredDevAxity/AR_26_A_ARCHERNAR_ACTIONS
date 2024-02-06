@@ -52,7 +52,7 @@ jobs:
 
   Build-NetCore3: 
     if: ${{ inputs.net-version == '3' }}
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps: 
       - name: Checkout
         uses: actions/checkout@v3
@@ -69,7 +69,7 @@ jobs:
           npm link
         working-directory: generator/3.1/Generator
       - name: Generate code
-        run: yo netcore3 --company "Axity" --name "test" --port "9090"
+        run: yo netcore3 
         working-directory: generator/3.1/Generator
 
   Test: 
