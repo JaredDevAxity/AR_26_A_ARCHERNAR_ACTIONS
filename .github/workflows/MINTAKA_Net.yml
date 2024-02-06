@@ -58,7 +58,7 @@ jobs:
       - name: SonarQube Analysis
         run: |
           dotnet tool install --global dotnet-sonarscanner
-          dotnet sonarscanner begin /k:"MINTAKA-Test" /d:sonar.login="sqp_62d48b60880f8f08933ee1c5fcaacb584c2f361e" /d:sonar.host.url="https://devtools.axity.com/sonarlts"
+          dotnet sonarscanner begin /k:"Test_CREA_Sonar_Archernar" /d:sonar.login="sqp_62d48b60880f8f08933ee1c5fcaacb584c2f361e" /d:sonar.host.url="https://devtools.axity.com/sonarlts"
           dotnet build --configuration Release
           dotnet test --configuration .\Axity.ArquetipoUnitTesting.Api\Axity.ArquetipoUnitTesting.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=\"TestResults/\"
           dotnet sonarscanner end /d:sonar.login="sqp_62d48b60880f8f08933ee1c5fcaacb584c2f361e"
