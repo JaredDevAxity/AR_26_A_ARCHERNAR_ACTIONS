@@ -71,7 +71,7 @@ jobs:
       - name: Generate code
         run: |
           proyectoGenerado = await yo.run("netcore3", {
-          name: "axity",
+            name: "axity",
           })
         working-directory: generator/3.1/Generator
 
