@@ -72,6 +72,7 @@ jobs:
           dotnet build --configuration Release
           dotnet test --configuration .\Axity.ArquetipoUnitTesting.Api\Axity.ArquetipoUnitTesting.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=\"TestResults/\"
           dotnet sonarscanner end /d:sonar.login="sqp_62d48b60880f8f08933ee1c5fcaacb584c2f361e"
+        working-directory: '.'
         
 
         
