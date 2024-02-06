@@ -52,7 +52,7 @@ jobs:
 
   Build-NetCore3: 
     if: ${{ inputs.net-version == '3' }}
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps: 
       - name: Checkout
         uses: actions/checkout@v3
