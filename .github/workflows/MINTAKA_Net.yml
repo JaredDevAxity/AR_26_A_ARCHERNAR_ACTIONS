@@ -6,10 +6,13 @@ on:
       node-version: 
         required: true
         type: string
+      net-version:
+        required: true
+        type: string
 
 jobs: 
-  Build: 
-    if: ${{ inputs.node-version == '16' }}
+  Build-NetCore6: 
+    if: ${{ inputs.net-version == '6' }}
     runs-on: ubuntu-latest
     steps: 
       - name: Checkout
@@ -47,8 +50,28 @@ jobs:
           name: dist
           path: generator/6.0/Generator/generator-netcore6/arquetipounittesting-service/Axity.ArquetipoUnitTesting.API
 
+  Build-NetCore3: 
+    if: ${{ inputs.net-version == '3.1' }}
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v3
+        with: 
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with: 
+          node-version: ${{ inputs.node-version }}
+      - name: Install Yeoman
+        run: |
+          npm install -g yo generator-code yeoman-generator
+          npm install
+          npm link
+        working-directory: generator/6.0/Generator/generator-netcore6
+    
+
   Test: 
-    needs: Build
+    needs: Build-NetCore6
     runs-on: ubuntu-latest
     steps: 
       - name: Checkout
