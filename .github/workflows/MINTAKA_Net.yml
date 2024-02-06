@@ -26,3 +26,9 @@ jobs:
           npm install
           npm link
         working-directory: generator/6.0/Generator/generator-netcore6
+
+      - name: Generate code
+        run: yo netcore6
+        working-directory: generator/6.0/Generator/generator-netcore6
+
+        
