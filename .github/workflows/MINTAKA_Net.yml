@@ -51,7 +51,7 @@ jobs:
           path: generator/6.0/Generator/generator-netcore6/arquetipounittesting-service/Axity.ArquetipoUnitTesting.API
 
   Build-NetCore3: 
-    if: ${{ inputs.net-version == '3.1' }}
+    if: ${{ inputs.net-version == '3' }}
     runs-on: ubuntu-latest
     steps: 
       - name: Checkout
@@ -69,8 +69,8 @@ jobs:
           npm link
         working-directory: generator/3.1/Generator
       - name: Generate code
-        run: yo netcore6
-        working-directory: generator/6.0/Generator/generator-netcore3
+        run: yo netcore3
+        working-directory: generator/3.1/Generator
 
   Test: 
     needs: Build-NetCore6
