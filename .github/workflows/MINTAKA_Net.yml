@@ -70,7 +70,9 @@ jobs:
         working-directory: generator/3.1/Generator
       - name: Generate code
         run: |
-          yo netcore3 --company "axity" --name "test" --port "9090"
+          proyectoGenerado = await yo.run("netcore3", {
+          name: "axity",
+          })
         working-directory: generator/3.1/Generator
 
   Test: 
