@@ -49,4 +49,17 @@ jobs:
         run: dotnet test --no-build --verbosity normal
         working-directory: generator/6.0/Generator/generator-netcore6/arquetipounittesting-service/Axity.ArquetipoUnitTesting.API
 
+      - uses: actions/setup-java@v1 
+        with:
+          java-version: "11"
+
+      - name: SonarQube Analysis
+        run: |
+          dotnet tool install --global dotnet-sonarscanner
+          dotnet sonarscanner begin /k:"Test_CREA_Sonar_Archernar" /d:sonar.login="sqp_62d48b60880f8f08933ee1c5fcaacb584c2f361e" /d:sonar.host.url="https://devtools.axity.com/sonarlts"
+          dotnet build --configuration Release
+          dotnet test --configuration .\Axity.ArquetipoUnitTesting.Api\Axity.ArquetipoUnitTesting.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=\"TestResults/\"
+          dotnet sonarscanner end /d:sonar.login="sqp_62d48b60880f8f08933ee1c5fcaacb584c2f361e"
+        working-directory: generator/6.0/Generator/generator-netcore6/arquetipounittesting-service
+
         
