@@ -19,3 +19,10 @@ jobs:
         uses: actions/setup-node@v3
         with: 
           node-version: ${{ inputs.node-version }}
+
+      - name: Install Yeoman
+        run: |
+          npm install -g yo generator-code yeoman-generator
+          npm install
+          npm link
+        working-directory: generator/6.0/Generator/generator-netcore6
