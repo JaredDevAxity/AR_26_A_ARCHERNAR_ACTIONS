@@ -69,14 +69,7 @@ jobs:
           npm link
         working-directory: generator/3.1/Generator
       - name: Generate code
-        run: |
-          async function generar() {
-              await yo netcore3({
-                  company: "axity"
-              });
-              // Añade cualquier paso adicional después de que yo netcore3 termine
-          }
-          generar();
+        run: yo netcore3
         working-directory: generator/3.1/Generator
 
   Test: 
