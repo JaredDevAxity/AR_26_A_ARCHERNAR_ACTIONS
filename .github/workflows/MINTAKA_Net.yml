@@ -67,7 +67,7 @@ jobs:
           npm install -g yo generator-code yeoman-generator
           npm install
           npm link
-        working-directory: generator/3.1/Generator/generator-netcore6
+        working-directory: generator/3.1/Generator
     
 
   Test: 
