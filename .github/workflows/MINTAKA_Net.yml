@@ -43,7 +43,7 @@ jobs:
 
       - name: Build
         run: dotnet build --no-restore
-        working-directory: generator/6.0/Generator/generator-netcore6/arquetipounittesting-service
+        working-directory: generator/6.0/Generator/generator-netcore6/arquetipounittesting-service/Axity.ArquetipoUnitTesting.API
 
       - name: Test
         run: dotnet test --no-build --verbosity normal
