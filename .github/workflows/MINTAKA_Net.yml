@@ -1,2 +1,4 @@
-name: NetCore CI
-run-name: 
+name: Compile MINTAKA
+
+workflow_call: 
+  
