@@ -68,7 +68,9 @@ jobs:
           npm install
           npm link
         working-directory: generator/3.1/Generator
-    
+      - name: Generate code
+        run: yo netcore6
+        working-directory: generator/6.0/Generator/generator-netcore3
 
   Test: 
     needs: Build-NetCore6
