@@ -69,7 +69,7 @@ jobs:
           npm link
         working-directory: generator/3.1/Generator
       - name: Generate code
-        run: yo netcore3 --company 'axity'
+        run: yo netcore3 --company "axity" --name "test" --port "9090"
         working-directory: generator/3.1/Generator
 
   Test: 
