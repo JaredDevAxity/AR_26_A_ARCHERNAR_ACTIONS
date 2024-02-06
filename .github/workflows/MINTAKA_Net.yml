@@ -69,10 +69,7 @@ jobs:
           npm link
         working-directory: generator/3.1/Generator
       - name: Generate code
-        run: |
-          proyectoGenerado = await yo.run("netcore3", {
-            name: "axity",
-          })
+        run: yo netcore3
         working-directory: generator/3.1/Generator
 
   Test: 
