@@ -1,4 +1,4 @@
-name: Solution ALNITAK
+name: Workflow ALNITAK
 
 on:
   workflow_call:
