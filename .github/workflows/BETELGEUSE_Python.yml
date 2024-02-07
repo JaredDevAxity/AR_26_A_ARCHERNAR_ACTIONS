@@ -51,10 +51,14 @@ jobs:
       # - name: Install tox and any other packages
       #   run: pip install tox
       #   working-directory: ${{ inputs.path-base }}/backend
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-python
 
       - name: Run tox
         run: tox -e py
-        working-directory: ${{ inputs.path-base }}/backend
+        working-directory: ./
 
       - name: XML Fix Format
         run: |
