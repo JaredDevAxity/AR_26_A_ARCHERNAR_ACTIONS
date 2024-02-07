@@ -77,9 +77,8 @@ jobs:
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         with:
-          projectBaseDir: ./
+          projectBaseDir: ./backend
           args: >
-            -Dsonar.projectName=BETELGEUSE-Python
             -Dsonar.projectKey=${{ secrets.PROJECT_KEY }}
             -Donar.python.version=3.9
             -Dsonar.python.coveragePlugin=cobertura
