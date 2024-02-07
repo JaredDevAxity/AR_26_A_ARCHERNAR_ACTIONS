@@ -1,0 +1,104 @@
+name: Solution ALNITAK
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        required: true
+        type: string
+      path-base:
+        required: true
+        type: string
+      service-name:
+        required: true
+        type: string
+
+jobs:
+  Build-Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - name: Actualizar npm
+        if: ${{ inputs.node-version >= '20' }}
+        run: npm install -g npm@latest
+
+      - name: Install Yeoman
+        run: |
+          npm install -g yo generator-code yeoman-generator
+          npm install 
+          npm link
+        working-directory: ${{ inputs.path-base }}/generator
+
+      - name: Generate code
+        run: yo nodejs
+        working-directory: ${{ inputs.path-base }}/generator
+
+      - name: Archive Generate code
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-generate-code
+          path: ${{inputs.path-base}}/generator/${{ inputs.service-name }}-service
+
+      - name: Compile Generated Code
+        run: |
+          npm install
+          npm test
+          npm run coverage
+        working-directory: ${{inputs.path-base}}/generator/${{inputs.service-name}}-service
+        if: success()
+        # Solo se ejecutara en caso de que todos los steps anteriores sean exitosos
+
+      # - name: Download Generate Code
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: dist-generate-code
+
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        with:
+          projectBaseDir: ${{inputs.path-base}}/generator/${{inputs.service-name}}-service
+          args: >
+            -Dsonar.projectKey=${{ secrets.PROJECT_KEY }}
+            -Dsonar.sourceEncoding=UTF-8
+            -Dsonar.sources=src 
+            -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/*.module.ts,**/app.child.imports.ts,**/src/api/microRouter.ts,**/src/api/index.ts,**/src/config/**/*,**/src/to/**/*,**/src/facade/micro/index.ts
+            -Dsonar.tests=src
+            -Dsonar.test.inclusions=**/*.spec.ts
+            -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        if: success()
+
+  # Test:
+  #   needs: Build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #       with:
+  #         fetch-depth: 0
+
+  #     - name: Setup Node
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: ${{ inputs.node-version }}
+
+  #     - name: Actualizar npm
+  #       if: ${{ inputs.node-version >= '20' }}
+  #       run: npm install -g npm@latest
+
+  #     # - name: Download Generate Code
+  #     #   uses: actions/download-artifact@v4
+  #     #   with:
+  #     #     name: dist-generate-code
