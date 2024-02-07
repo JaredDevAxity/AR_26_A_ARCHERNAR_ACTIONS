@@ -72,12 +72,11 @@ jobs:
           xml_file_path="coverage.xml"
           new_filename_prefix="backend"
           sed -i "s|filename=\"\(.*\)\"|filename=\"$new_filename_prefix\/\1\"|g" "$xml_file_path"
-        working-directory: ./
 
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         with:
-          projectBaseDir: ./backend
+          projectBaseDir: .
           args: >
             -Dsonar.projectKey=${{ secrets.PROJECT_KEY }}
             -Donar.python.version=3.9
