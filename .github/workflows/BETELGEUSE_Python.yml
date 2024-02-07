@@ -68,7 +68,7 @@ jobs:
             -Dsonar.python.coverage.reportPaths=coverage.xml
             -Dsonar.python.unittest.reportPath=coverage.xml
             -Dsonar.test.inclusions=**/tests/** 
-            -sonar.exclusions=**/__init__.py
+            -Dsonar.exclusions=**/__init__.py
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
