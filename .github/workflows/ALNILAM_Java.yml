@@ -97,12 +97,17 @@ jobs:
   
         - name: Set up Docker Buildx
           uses: docker/setup-buildx-action@v3
+
+        - name: Download dist
+          uses: actions/download-artifact@v4
+          with:
+            name: dist
   
         - name: Build and push
           uses: docker/build-push-action@v5
           with:
-            context: ${{ inputs.path-base }}/generator/jdk11/generators/office-service/
-            file: ${{ inputs.path-base }}/generator/jdk11/generators/office-service/Dockerfile
+            context: ./
+            file: ./Dockerfile
             push: true
             tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
 
