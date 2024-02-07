@@ -59,6 +59,16 @@ jobs:
 
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
+        with:
+          projectBaseDir: ./
+          args: >
+            -Dsonar.projectKey=${{ secrets.PROJECT_KEY }}
+            -Donar.python.version=3.9
+            -Dsonar.python.coveragePlugin=cobertura
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.python.unittest.reportPath=coverage.xml
+            -Dsonar.test.inclusions=**/tests/** 
+            -sonar.exclusions=**/__init__.py
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL  }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
