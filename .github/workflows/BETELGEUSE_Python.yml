@@ -34,41 +34,58 @@ jobs:
           name: dist-python
           path: ${{inputs.path-base}}/backend
 
-  Test:
-    needs: Build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: dist-python
-
-      - name: Install tox and any other packages
-        run: pip install tox
-
       - name: Run tox
         run: tox -e py
-        working-directory: ./
+        working-directory: ${{ inputs.path-base }}/backend
 
       - name: XML Fix Format
         run: |
           xml_file_path="coverage.xml"
           new_filename_prefix="backend"
           sed -i "s|filename=\"\(.*\)\"|filename=\"$new_filename_prefix\/\1\"|g" "$xml_file_path"
-        working-directory: ./
+        working-directory: ${{ inputs.path-base }}/backend
 
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
-        with:
-          projectBaseDir: ./
-          args: >
-            -Dsonar.projectKey=${{ secrets.PROJECT_KEY }}
-            -Donar.python.version=3.9
-            -Dsonar.python.coveragePlugin=cobertura
-            -Dsonar.python.coverage.reportPaths=coverage.xml
-            -Dsonar.python.unittest.reportPath=coverage.xml
-            -Dsonar.test.inclusions=**/tests/** 
-            -Dsonar.exclusions=**/__init__.py
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL  }}
+
+  # Test:
+  #   needs: Build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Download Artifact
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: dist-python
+
+  #     - name: Install tox and any other packages
+  #       run: pip install tox
+
+  #     - name: Run tox
+  #       run: tox -e py
+  #       working-directory: ./
+
+  #     - name: XML Fix Format
+  #       run: |
+  #         xml_file_path="coverage.xml"
+  #         new_filename_prefix="backend"
+  #         sed -i "s|filename=\"\(.*\)\"|filename=\"$new_filename_prefix\/\1\"|g" "$xml_file_path"
+  #       working-directory: ./
+
+  #     - name: SonarQube Scan
+  #       uses: sonarsource/sonarqube-scan-action@master
+  #       with:
+  #         projectBaseDir: ./
+  #         args: >
+  #           -Dsonar.projectKey=${{ secrets.PROJECT_KEY }}
+  #           -Donar.python.version=3.9
+  #           -Dsonar.python.coveragePlugin=cobertura
+  #           -Dsonar.python.coverage.reportPaths=coverage.xml
+  #           -Dsonar.python.unittest.reportPath=coverage.xml
+  #           -Dsonar.test.inclusions=**/tests/**
+  #           -Dsonar.exclusions=**/__init__.py
+  #       env:
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
