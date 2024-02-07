@@ -77,7 +77,6 @@ jobs:
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         with:
-          projectBaseDir: ./backend
           args: >
             -Dsonar.projectKey=${{ secrets.PROJECT_KEY }}
             -Donar.python.version=3.9
