@@ -1,10 +1,18 @@
-name: NetCore 6 CI
+name: Workflow MIMTAKA CI
 
 on:
   workflow_call:
+    inputs:
+      node-version:
+        required: true
+        type: string
+      net-version:
+        required: true
+        type: string
 
 jobs:
-  build:
+  Build-NetCore6:
+    if: ${{inputs.net-version == '6'}}
     runs-on: windows-latest
     steps:
       - name: Checkout
@@ -58,6 +66,31 @@ jobs:
           dotnet test --configuration .\Axity.ArquetipoUnitTesting.Api\Axity.ArquetipoUnitTesting.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=\"TestResults/\"
           dotnet sonarscanner end /d:sonar.login="sqp_62d48b60880f8f08933ee1c5fcaacb584c2f361e"
         working-directory: generator/6.0/Generator/generator-netcore6/arquetipounittesting-service
+
+  Build-NetCore3:
+    if: ${{ inputs.net-version == '3' }}
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - name: Install Yeoman
+        run: |
+          npm install -g yo generator-code yeoman-generator
+          npm install
+          npm link
+        working-directory: generator/3.1/Generator
+
+      - name: Generate code
+        run: yo netcore3 --company="Axity" --name="Text" --port="9090"
+        working-directory: generator/3.1/Generator
 ## name: Compile MINTAKA
 
 # on:
