@@ -95,11 +95,11 @@ jobs:
           include-prerelease: true
 
       - name: Generate code
-        run: |
-          echo "MiEmpresa" | yo netcore3 --company -
-          echo "MiProyecto" | yo netcore3 --name -
-          echo "8080" | yo netcore3 --port -
-        shell: bash
+        run: script -q -c "yo netcore3" /dev/null << EOF
+          MiEmpresa
+          MiProyecto
+          8080
+          EOF
         working-directory: generator/3.1/Generator
 ## name: Compile MINTAKA
 
