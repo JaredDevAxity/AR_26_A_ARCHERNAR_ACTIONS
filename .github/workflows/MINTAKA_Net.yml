@@ -95,7 +95,8 @@ jobs:
           include-prerelease: true
 
       - name: Generate code
-        run: yo netcore3 --company MiEmpresa --name MiProyecto --port 8080 --force-install --skip-install
+        run: |
+          yo netcore3 --company MiEmpresa --name MiProyecto --port 8080 --force-install --skip-install
         working-directory: generator/3.1/Generator
 ## name: Compile MINTAKA
 
