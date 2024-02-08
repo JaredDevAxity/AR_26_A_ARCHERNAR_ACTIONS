@@ -96,16 +96,9 @@ jobs:
 
       - name: Generate code
         run: |
-          expect -c '
-            spawn yo netcore3
-            expect "Your company name"
-            send "MiEmpresa\r"
-            expect "Your project name"
-            send "MiProyecto\r"
-            expect "Your project port"
-            send "8080\r"
-            interact
-          '
+          echo "MiEmpresa" | yo netcore3 --company -
+          echo "MiProyecto" | yo netcore3 --name -
+          echo "8080" | yo netcore3 --port -
         working-directory: generator/3.1/Generator
 ## name: Compile MINTAKA
 
