@@ -88,8 +88,14 @@ jobs:
           npm link
         working-directory: generator/3.1/Generator
 
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "3.x"
+          include-prerelease: true
+
       - name: Generate code
-        run: yo netcore3
+        run: yo netcore3 --company="Axity" --name="Text" --port="9090"
         working-directory: generator/3.1/Generator
 ## name: Compile MINTAKA
 
