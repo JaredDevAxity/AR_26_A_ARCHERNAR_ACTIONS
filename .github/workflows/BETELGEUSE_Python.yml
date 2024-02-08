@@ -62,10 +62,11 @@ jobs:
 
       - name: Install tox and any other packages
         run: pip install tox
+        working-directory: backend
 
       - name: Run tox
         run: tox -e py
-        # working-directory: ./
+        working-directory: backend
 
       - name: XML Fix Format
         run: |
@@ -76,7 +77,7 @@ jobs:
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         with:
-          projectBaseDir: ./
+          projectBaseDir: backend
           args: >
             -Dsonar.projectKey=${{ secrets.PROJECT_KEY }}
             -Donar.python.version=3.9
