@@ -65,7 +65,7 @@ jobs:
 
       - name: Run tox
         run: tox -e py
-        working-directory: ./
+        # working-directory: ./
 
       - name: XML Fix Format
         run: |
@@ -76,7 +76,7 @@ jobs:
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         with:
-          projectBaseDir: .
+          projectBaseDir: ./
           args: >
             -Dsonar.projectKey=${{ secrets.PROJECT_KEY }}
             -Donar.python.version=3.9
