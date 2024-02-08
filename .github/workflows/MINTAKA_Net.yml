@@ -96,7 +96,7 @@ jobs:
 
       - name: Generate code
         run: |
-          yo netcore3 --company MiEmpresa --name MiProyecto --port 8080 --force-install --skip-install
+          yo netcore3 --force-install
         working-directory: generator/3.1/Generator
 ## name: Compile MINTAKA
 
