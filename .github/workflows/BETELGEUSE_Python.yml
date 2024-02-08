@@ -32,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dist-python
-          path: ${{inputs.path-base}}/backend
+          path: ${{inputs.path-base}}
 
       # - name: Run tox
       #   run: tox -e py
