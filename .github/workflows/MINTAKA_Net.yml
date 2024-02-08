@@ -95,7 +95,7 @@ jobs:
           include-prerelease: true
 
       - name: Generate code
-        run: yo netcore3 --company="Axity" --name="Text" --port="9090"
+        run: yo netcore3 --company="Axity" --name="Test" --port="9090"
         working-directory: generator/3.1/Generator
 ## name: Compile MINTAKA
 
