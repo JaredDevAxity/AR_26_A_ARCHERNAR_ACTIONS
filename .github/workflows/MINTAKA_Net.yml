@@ -38,13 +38,13 @@ jobs:
         run: dotnet restore
         working-directory: generator/6.0/Generator/generator-netcore6/arquetipounittesting-service
 
-      # - name: Build
-      #   run: dotnet build --no-restore
-      #   working-directory: generator/6.0/Generator/generator-netcore6/arquetipounittesting-service/Axity.ArquetipoUnitTesting.API
+      - name: Build
+        run: dotnet build --no-restore
+        working-directory: generator/6.0/Generator/generator-netcore6/arquetipounittesting-service
 
-      # - name: Test
-      #   run: dotnet test --no-build --verbosity normal
-      #   working-directory: generator/6.0/Generator/generator-netcore6/arquetipounittesting-service/Axity.ArquetipoUnitTesting.API
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+        working-directory: generator/6.0/Generator/generator-netcore6/arquetipounittesting-service
 
       # - uses: actions/setup-java@v1
       #   with:
