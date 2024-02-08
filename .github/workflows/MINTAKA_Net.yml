@@ -95,8 +95,7 @@ jobs:
           include-prerelease: true
 
       - name: Generate code
-        run: |
-          yo netcore3 --force-install
+        run: yo netcore3
         working-directory: generator/3.1/Generator
 ## name: Compile MINTAKA
 
