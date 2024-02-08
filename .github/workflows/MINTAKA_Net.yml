@@ -17,16 +17,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: "6.x"
-          include-prerelease: true
-
-      - uses: actions/setup-java@v1
-        with:
-          java-version: "17"
-
       - name: Install Yeoman
         run: |
           npm install -g yo generator-code yeoman-generator
@@ -37,6 +27,12 @@ jobs:
       - name: Generate code
         run: yo netcore6
         working-directory: generator/6.0/Generator/generator-netcore6
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "6.x"
+          include-prerelease: true
 
       - name: Restore dependencies
         run: dotnet restore
@@ -49,6 +45,10 @@ jobs:
       - name: Test
         run: dotnet test --no-build --verbosity normal
         working-directory: generator/6.0/Generator/generator-netcore6/arquetipounittesting-service
+
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "11"
 
       - name: SonarQube Analysis
         run: |
