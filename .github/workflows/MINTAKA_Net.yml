@@ -99,6 +99,7 @@ jobs:
           echo "MiEmpresa" | yo netcore3 --company -
           echo "MiProyecto" | yo netcore3 --name -
           echo "8080" | yo netcore3 --port -
+        shell: bash
         working-directory: generator/3.1/Generator
 ## name: Compile MINTAKA
 
