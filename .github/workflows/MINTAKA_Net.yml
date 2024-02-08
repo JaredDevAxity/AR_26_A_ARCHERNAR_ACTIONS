@@ -1,8 +1,7 @@
 name: NetCore 6 CI
 
 on:
-  push:
-    branches: [MNTAKA]
+  workflow_call:
 
 jobs:
   build:
