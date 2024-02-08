@@ -95,7 +95,17 @@ jobs:
           include-prerelease: true
 
       - name: Generate code
-        run: yo netcore3
+        run: |
+          expect -c '
+            spawn yo netcore3
+            expect "Your company name"
+            send "MiEmpresa\r"
+            expect "Your project name"
+            send "MiProyecto\r"
+            expect "Your project port"
+            send "8080\r"
+            interact
+          '
         working-directory: generator/3.1/Generator
 ## name: Compile MINTAKA
 
