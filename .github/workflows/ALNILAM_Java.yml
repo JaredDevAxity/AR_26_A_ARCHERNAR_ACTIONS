@@ -27,7 +27,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ inputs.node-version }}
-      - name: Set up JDK 11
+      - name: Set up JDK ${{ inputs.java-version }}
         uses: actions/setup-java@v3
         with:
           java-version: ${{ inputs.java-version }}
@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: generated-code-java
-          path: ${{ inputs.path-base }}/generator/jdk11/${{ inputs.name-service }}-service
+          path: ${{ inputs.run-path }}/generator/jdk11/${{ inputs.name-service }}-service
 
   Test:
     needs: Build
