@@ -81,8 +81,8 @@ jobs:
       - name: SonarQube Analysis
         run: |
           dotnet tool install --global dotnet-sonarscanner
-          dotnet sonarscanner begin /k:"Test_CREA_Sonar_Archernar" /d:sonar.login="sqp_62d48b60880f8f08933ee1c5fcaacb584c2f361e" /d:sonar.host.url="https://devtools.axity.com/sonarlts"
+          dotnet sonarscanner begin /k:"${{secrets.SONAR_PROJECT_KEY}}" /d:sonar.login="${{secrets.SONAR_TOKEN}}" /d:sonar.host.url="${{secrets.SONAR_HOST_URL}}"
           dotnet build --configuration Release
           dotnet test --configuration .\Axity.ArquetipoUnitTesting.Api\Axity.ArquetipoUnitTesting.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=\"TestResults/\"
-          dotnet sonarscanner end /d:sonar.login="sqp_62d48b60880f8f08933ee1c5fcaacb584c2f361e"
+          dotnet sonarscanner end /d:sonar.login="${{secrets.SONAR_TOKEN}}"
       #   working-directory: generator/6.0/Generator/generator-netcore6/arquetipounittesting-service
