@@ -28,20 +28,16 @@ jobs:
         run: npm ci
         working-directory: ${{ inputs.run-path }}/front
 
-      - name: Empaquetar
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: front
-
       - name: test CI with NPM
         run: npm run test-ci
         working-directory: ${{ inputs.run-path }}/front
+        if: success()
+        # Solo se ejecutara si todos los pasos anteriores son exitosos
 
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         with:
-          projectBaseDir: front
+          projectBaseDir: ${{ inputs.run-path }}/front
           args: >
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
             -Dsonar.sourceEncoding=UTF-8
