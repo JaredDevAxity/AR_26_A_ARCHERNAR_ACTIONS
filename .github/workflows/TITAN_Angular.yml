@@ -50,7 +50,7 @@ jobs:
 
       - name: test CI with NPM
         run: npm run test-ci
-        working-directory: front
+        # working-directory: front
 
     #   - name: sonar-scanner
     #     run: |
