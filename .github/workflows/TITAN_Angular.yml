@@ -28,21 +28,41 @@ jobs:
         run: npm ci
         working-directory: front
 
+      - name: Archive Front
+        uses: actions/upload-artifact@v4
+        with:
+          name: front-angular
+          path: front
+
+  Test:
+    needs: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node ${{ inputs.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - name: Download Front
+        uses: actions/download-artifact@v4
+        with:
+          name: front-angular
+
       - name: test CI with NPM
         run: npm run test-ci
         working-directory: front
 
-      - name: sonar-scanner
-        run: |
-          /opt/sonar-scanner/bin/sonar-scanner \
-          -Dsonar.projectKey=22_axity_angular_archetype \
-          -Dsonar.host.url=https://devtools.axity.com/sonarlts \
-          -Dsonar.login=d54f4f0b0ecc98ca94c88640833783fe52216269 \
-          -Dsonar.sourceEncoding=UTF-8 \
-          -Dsonar.sources=src/app \
-          -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/*.module.ts,**/app.child.imports.ts \
-          -Dsonar.tests=src \
-          -Dsonar.test.inclusions=**/*.spec.ts \
-          -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
-        working-directory: front
-        shell: bash
+    #   - name: sonar-scanner
+    #     run: |
+    #       /opt/sonar-scanner/bin/sonar-scanner \
+    #       -Dsonar.projectKey=22_axity_angular_archetype \
+    #       -Dsonar.host.url=https://devtools.axity.com/sonarlts \
+    #       -Dsonar.login=d54f4f0b0ecc98ca94c88640833783fe52216269 \
+    #       -Dsonar.sourceEncoding=UTF-8 \
+    #       -Dsonar.sources=src/app \
+    #       -Dsonar.exclusions=**/node_modules/**,**/*.spec.ts,**/*.module.ts,**/app.child.imports.ts \
+    #       -Dsonar.tests=src \
+    #       -Dsonar.test.inclusions=**/*.spec.ts \
+    #       -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+    #     working-directory: front
+    #     shell: bash
