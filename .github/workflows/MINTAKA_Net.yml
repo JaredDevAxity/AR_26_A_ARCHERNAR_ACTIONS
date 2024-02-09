@@ -47,9 +47,18 @@ jobs:
           name: generated-code-net
           path: generator/6.0/Generator/generator-netcore6/arquetipounittesting-service
 
-      # - name: Restore dependencies
-      #   run: dotnet restore
-      #   working-directory: generator/6.0/Generator/generator-netcore6/arquetipounittesting-service
+  Test:
+    needs: Build
+    runs-on: windows-latest
+    steps:
+      - name: Download Generated Code
+        uses: actions/download-artifact@v4
+        with:
+          name: generated-code-net
+
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: generator/6.0/Generator/generator-netcore6/arquetipounittesting-service
 
       # - name: Build
       #   run: dotnet build --no-restore
