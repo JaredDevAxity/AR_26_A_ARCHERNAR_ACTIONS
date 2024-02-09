@@ -8,7 +8,7 @@ on:
       java-version:
         required: true
         type: string
-      path-base: 
+      run-path: 
         required: true
         type: string
       name-service: 
@@ -43,14 +43,14 @@ jobs:
           npm install -g yo generator-code yeoman-generator
           npm install
           npm link
-        working-directory: ${{ inputs.path-base }}/generator/jdk11
+        working-directory: ${{ inputs.run-path }}/generator/jdk11
       - name: Generate code
         run: yo jdk11-springboot
-        working-directory: ${{ inputs.path-base }}/generator/jdk11
-      - name: Archive Build
+        working-directory: ${{ inputs.run-path }}/generator/jdk11
+      - name: Archive Generated Code
         uses: actions/upload-artifact@v4
         with:
-          name: dist
+          name: generated-code-java
           path: ${{ inputs.path-base }}/generator/jdk11/${{ inputs.name-service }}-service
 
   Test:
@@ -61,7 +61,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Set up JDK 11
+      - name: Set up JDK ${{ inputs.java-version }}
         uses: actions/setup-java@v3
         with:
           java-version: ${{ inputs.java-version }}
@@ -71,10 +71,10 @@ jobs:
         with:
           java-version: ${{ inputs.java-version }}
           maven-version: 3.8.7
-      - name: Download dist
+      - name: Download Generated Code
         uses: actions/download-artifact@v4
         with:
-          name: dist
+          name: generated-code-java
       - name: Install & Compile with maven
         run: mvn clean install -DskipTests
       - name: Run sonar
@@ -98,10 +98,10 @@ jobs:
         - name: Set up Docker Buildx
           uses: docker/setup-buildx-action@v3
 
-        - name: Download dist
+        - name: Download Generated Code
           uses: actions/download-artifact@v4
           with:
-            name: dist
+            name: generated-code-java
   
         - name: Build and push
           uses: docker/build-push-action@v5
